@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+            Task Tracker
+        {% endblock %}
+        · E2E Solutions
+    </title>
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <!-- Index CSS -->
+     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+    <!-- Page Specific CSS -->
+    {% block extra_css %}
+    {% endblock %}
+</head>
+
+<body>
+
+    <!-- Django Messages -->
+    {% if messages %}
+        <ul class="log-messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Page Content -->
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <!-- Page Specific JavaScript -->
+    {% block extra_js %}
+    <script src="{% static 'js/index.js' %}"></script>
+    {% endblock %}
+
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-logo">
+        <div class="logo-circle">T</div>
+        <div class="logo-text">
+            <h2>Task Tracker</h2>
+            <span>E2E Solutions</span>
+        </div>
+    </div>
+
+    <div class="sidebar-menu">
+
+        <a href="{% url 'index' %}" class="menu-item">
+            Dashboard
+        </a>
+
+        {% if request.user.is_reporting_person %}
+        <a href="{% url 'task_assign_list' %}" class="menu-item">
+            Task Assign
+        </a>
+        {% endif %}
+
+        {% if not request.user.is_intern %}
+        <a href="{% url 'view_tasks' %}" class="menu-item">
+            View Tasks
+        </a>
+        {% endif %}
+
+        {% if request.user.role != 'ADMIN' %}
+        <a href="{% url 'my_tasks' %}" class="menu-item">
+            My Tasks
+        </a>
+        {% endif %}
+
+        {% if request.user.role == 'ADMIN' or request.user.designation == 'manager' %}
+        <a href="{% url 'register' %}" class="menu-item">
+            Add Employee
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="sidebar-footer-info">
+            <p>Signed in as</p>
+            <strong>{{ request.user.get_role_display }}</strong>
+        </div>
+
+        <a href="{% url 'logout' %}" class="logout-link">
+            Logout
+        </a>
+    </div>
+
+</aside>

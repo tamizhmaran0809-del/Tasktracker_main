@@ -1,0 +1,237 @@
+{% extends 'home/base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% block content %}
+
+    <div class="log-container">
+
+    <section class="log-left-panel">
+
+        <div class="log-brand">
+
+            <div class="log-brand-logo">
+                T
+            </div>
+
+            <div class="log-brand-info">
+                <h2 class="log-brand-title">Task Tracker</h2>
+                <p class="log-brand-subtitle">E2E Solutions · Internal</p>
+            </div>
+
+        </div>
+
+        <div class="log-timeline">
+
+            <div class="log-timeline-item">
+
+                <div class="log-timeline-dot"></div>
+
+                <div class="log-timeline-content">
+
+                    <h3 class="log-timeline-title">
+                        Tell us who you are
+                    </h3>
+
+                    <p class="log-timeline-description">
+                        Your role and designation decide what you can see and assign — set them correctly so access lines up from day one.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="log-timeline-item">
+
+                <div class="log-timeline-dot"></div>
+
+                <div class="log-timeline-content">
+
+                    <h3 class="log-timeline-title">
+                        Reporting-person roles
+                    </h3>
+
+                    <p class="log-timeline-description">
+                        Admin, Manager, HR and every Lead role fall under "Reporting person" — each still scoped to their own access rules.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="log-timeline-item">
+
+                <div class="log-timeline-dot"></div>
+
+                <div class="log-timeline-content">
+
+                    <h3 class="log-timeline-title">
+                        Ready in a minute
+                    </h3>
+
+                    <p class="log-timeline-description">
+                        Once registered, you can sign in right away with your Employee ID and password.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <section class="log-right-panel">
+
+        <div class="log-card log-card-wide">
+
+            <div class="log-header">
+
+                <h1 class="log-title">
+                    Create your account
+                </h1>
+
+                <p class="log-subtitle">
+                    Fill in your details to get access to the tracker.
+                </p>
+
+            </div>
+
+       <form method="POST">
+
+    {% csrf_token %}
+
+    <!-- Employee Name -->
+    <div class="log-field">
+        <label class="log-label">Employee Name</label>
+
+        <input
+            type="text"
+            name="employee_name"
+            class="log-input"
+            placeholder="Employee Name"
+            required>
+    </div>
+
+    <!-- Employee ID -->
+    <div class="log-field">
+        <label class="log-label">Employee ID</label>
+
+        <input
+            type="text"
+            name="employee_id"
+            class="log-input"
+            placeholder="E2E-001"
+            required>
+    </div>
+
+    <!-- Role -->
+    <div class="log-form-row">
+
+        <div class="log-field">
+
+            <label class="log-label">Role</label>
+
+            <select
+                name="role"
+                class="log-input"
+                required>
+
+                <option value="">--------</option>
+
+                <option value="ADMIN">Admin</option>
+                <option value="REPORTING_PERSON">Reporting Person</option>
+                <option value="EMPLOYEE">Employee</option>
+                <option value="INTERN">Intern</option>
+
+            </select>
+
+        </div>
+
+        <!-- Designation -->
+
+        <div class="log-field">
+
+            <label class="log-label">Designation</label>
+
+            <select
+                name="designation"
+                class="log-input"
+                required>
+
+                <option value="">--------</option>
+
+                <option value="manager">Manager</option>
+                <option value="hr">HR</option>
+                <option value="tech_lead">Technical Lead</option>
+                <option value="team_lead_dev">Team Lead</option>
+                <option value="developer">Software Developer</option>
+                <option value="testing_lead">Testing Lead</option>
+                <option value="tester">Testing Engineer</option>
+                <option value="dm_lead">Digital Marketing Lead</option>
+                <option value="dm_exec">Digital Marketing Executive</option>
+                <option value="intern">Intern</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <!-- Password -->
+
+    <div class="log-field">
+
+        <label class="log-label">Password</label>
+
+        <input
+            type="password"
+            name="password1"
+            class="log-input"
+            placeholder="Password"
+            required>
+
+    </div>
+
+    <!-- Confirm Password -->
+
+    <div class="log-field">
+
+        <label class="log-label">Confirm Password</label>
+
+        <input
+            type="password"
+            name="password2"
+            class="log-input"
+            placeholder="Confirm Password"
+            required>
+
+    </div>
+
+    <button class="log-submit-btn">
+
+        Register
+
+    </button>
+
+</form>
+
+            <div class="log-links">
+
+                <p class="log-register-text">
+                    Already have an account?
+                    <a href="{% url 'login' %}" class="log-register-link">
+                        Sign in
+                    </a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

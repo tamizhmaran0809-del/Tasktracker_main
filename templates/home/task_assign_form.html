@@ -1,0 +1,124 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Assign a task{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+
+    {% include "home/partials/sidebar.html" %}
+
+    <main class="main-content">
+
+        {% include "home/partials/topbar.html" with page_title="Assign a task" page_sub="Fill in the task details below." %}
+
+        <section class="dashboard-content">
+
+            <p style="margin-bottom: 20px;">
+                <a href="{% url 'task_assign_list' %}" style="color: var(--emerald); font-weight: 600; text-decoration: none;">
+                    &larr; Back to roster
+                </a>
+            </p>
+
+            <div class="activity-card" style="padding: 32px;">
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="log-field">
+                        <label class="log-label">To</label>
+                        <input type="text" class="log-input" value="{{ employee.get_full_name }}" readonly>
+                    </div>
+
+                    {{ formset.management_form }}
+
+                    <div id="task-rows">
+                        {% for form in formset %}
+                        <div class="log-form-row" style="align-items: flex-start; margin-bottom: 16px;">
+                            <div class="log-field">
+                                <label class="log-label">Task</label>
+                                {{ form.task }}
+                            </div>
+                            <div class="log-field" style="flex: 0 0 160px;">
+                                <label class="log-label">Due date</label>
+                                {{ form.due_date }}
+                            </div>
+                            <div class="log-field" style="flex: 0 0 140px;">
+                                <label class="log-label">Due time</label>
+                                {{ form.due_time }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="button" id="add-row-btn"
+                            style="background: none; border: none; color: var(--emerald); font-weight: 600; cursor: pointer; margin-bottom: 24px; padding: 0;">
+                        + Add another task
+                    </button>
+
+                    <div class="log-form-row">
+                        <div class="log-field">
+                            <label class="log-label">Reporting to</label>
+                            <select name="reporting_to" class="log-input" required>
+                                <option value="">Select</option>
+                                {% for person in reporting_to_choices %}
+                                <option value="{{ person.id }}">
+                                    {{ person.get_full_name }} &mdash; {{ person.get_designation_display }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="log-field">
+                            <label class="log-label">Assigned by</label>
+                            <input type="text" class="log-input"
+                                   value="{{ request.user.get_full_name }} — {{ request.user.get_designation_display }}"
+                                   readonly>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 10px;">
+                        <a href="{% url 'task_assign_list' %}" class="log-submit-btn"
+                           style="background: var(--text-muted); text-align: center; text-decoration: none;">
+                            Cancel
+                        </a>
+                        <button type="submit" class="log-submit-btn">
+                            Assign task
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<template id="empty-row-template">
+    <div class="log-form-row" style="align-items: flex-start; margin-bottom: 16px;">
+        <div class="log-field">
+            <label class="log-label">Task</label>
+            <textarea name="tasks-__prefix__-task" rows="2" class="log-input" placeholder="Describe the task in detail..."></textarea>
+        </div>
+        <div class="log-field" style="flex: 0 0 160px;">
+            <label class="log-label">Due date</label>
+            <input type="date" name="tasks-__prefix__-due_date" class="log-input">
+        </div>
+        <div class="log-field" style="flex: 0 0 140px;">
+            <label class="log-label">Due time</label>
+            <input type="time" name="tasks-__prefix__-due_time" class="log-input">
+        </div>
+    </div>
+</template>
+
+<script>
+document.getElementById('add-row-btn').addEventListener('click', function () {
+    var totalFormsInput = document.querySelector('[name="tasks-TOTAL_FORMS"]');
+    var idx = parseInt(totalFormsInput.value, 10);
+    var template = document.getElementById('empty-row-template').innerHTML.split('__prefix__').join(idx);
+    document.getElementById('task-rows').insertAdjacentHTML('beforeend', template);
+    totalFormsInput.value = idx + 1;
+});
+</script>
+{% endblock %}

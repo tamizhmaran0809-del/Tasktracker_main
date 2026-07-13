@@ -1,0 +1,60 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+
+    {% include "home/partials/sidebar.html" %}
+
+    <main class="main-content">
+
+        {% include "home/partials/topbar.html" with page_title="My Tasks" page_sub="Tasks assigned to you by your reporting person." %}
+
+        <section class="dashboard-content">
+
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+                <a href="{% url 'export_tasks_csv' %}" class="log-submit-btn btn-inline btn-muted">
+                    ⬇ Download CSV
+                </a>
+            </div>
+
+            <div class="activity-card">
+                {% for task in tasks %}
+                <div class="activity-row" style="flex-wrap: wrap;">
+                    <div class="activity-avatar">{{ request.user.get_initials }}</div>
+                    <div class="activity-details">
+                        <h4>{{ task.title }}</h4>
+                        <p>
+                            {% if task.assigned_by %}
+                                Assigned by {{ task.assigned_by.get_full_name }}
+                            {% else %}
+                                &mdash;
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <form method="post" action="{% url 'update_task_status' task.id %}" class="status-toggle">
+                        {% csrf_token %}
+                        <button type="submit" name="status" value="PENDING" class="status pending {% if task.status == 'PENDING' %}active{% endif %}">Pending</button>
+                        <button type="submit" name="status" value="IN_PROGRESS" class="status in_progress {% if task.status == 'IN_PROGRESS' %}active{% endif %}">In Progress</button>
+                        <button type="submit" name="status" value="COMPLETED" class="status completed {% if task.status == 'COMPLETED' %}active{% endif %}">Completed</button>
+                        <button type="submit" name="status" value="BLOCKED" class="status blocked {% if task.status == 'BLOCKED' %}active{% endif %}">Blocked</button>
+                    </form>
+                </div>
+                {% empty %}
+                <div class="activity-row">
+                    <div class="activity-details">
+                        <p>No tasks assigned to you yet.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+{% endblock %}

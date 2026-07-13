@@ -1,0 +1,65 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}View Tasks{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+
+    {% include "home/partials/sidebar.html" %}
+
+    <main class="main-content">
+
+        {% include "home/partials/topbar.html" with page_title="View Tasks" page_sub="Read-only view of every task within your access." %}
+
+        <section class="dashboard-content">
+
+            <form method="get" class="filter-bar">
+                <input type="text" name="q" value="{{ query }}" class="log-input" placeholder="Search by task or employee..." style="max-width: 300px;">
+
+                <select name="status" class="log-input" style="max-width: 180px;">
+                    <option value="">All statuses</option>
+                    <option value="PENDING" {% if status_filter == "PENDING" %}selected{% endif %}>Pending</option>
+                    <option value="IN_PROGRESS" {% if status_filter == "IN_PROGRESS" %}selected{% endif %}>In Progress</option>
+                    <option value="COMPLETED" {% if status_filter == "COMPLETED" %}selected{% endif %}>Completed</option>
+                    <option value="BLOCKED" {% if status_filter == "BLOCKED" %}selected{% endif %}>Blocked</option>
+                </select>
+
+                <button type="submit" class="log-submit-btn btn-inline">Filter</button>
+
+                <a href="{% url 'export_tasks_csv' %}?q={{ query|urlencode }}&status={{ status_filter|urlencode }}"
+                   class="log-submit-btn btn-inline btn-muted">
+                    ⬇ Download CSV
+                </a>
+            </form>
+
+            <div class="activity-card">
+                {% for task in tasks %}
+                <div class="activity-row">
+                    <div class="activity-avatar">{{ task.assigned_to.get_initials }}</div>
+                    <div class="activity-details">
+                        <h4>{{ task.title }}</h4>
+                        <p>
+                            {{ task.assigned_to.get_full_name }} &mdash; {{ task.team.name|default:"No team" }}
+                            {% if task.due_date %}
+                                &middot; Due {{ task.due_date|date:"d M" }}{% if task.due_time %}, {{ task.due_time|time:"g:i A" }}{% endif %}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <span class="status {{ task.status|lower }}">{{ task.get_status_display }}</span>
+                </div>
+                {% empty %}
+                <div class="activity-row">
+                    <div class="activity-details">
+                        <p>No tasks visible for your role yet.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+{% endblock %}

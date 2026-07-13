@@ -1,0 +1,59 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Task Assign{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+
+    {% include "home/partials/sidebar.html" %}
+
+    <main class="main-content">
+
+        {% include "home/partials/topbar.html" with page_title="Task Assign" page_sub="Your team, scoped to your role." %}
+
+        <section class="dashboard-content">
+
+            <div class="info-card" style="margin-bottom: 28px;">
+                <p>{{ scope_message }}</p>
+            </div>
+
+            <section class="dashboard-section">
+                <h2>Team roster</h2>
+
+                <div class="activity-card">
+                    {% for emp in employees %}
+                    <div class="activity-row">
+                        <div class="activity-avatar">{{ emp.get_initials }}</div>
+                        <div class="activity-details">
+                            <h4>
+                                {{ emp.get_full_name }}
+                                <span style="color: var(--ink-soft); font-weight: 500;">&middot; {{ emp.employee_code }}</span>
+                            </h4>
+                            <p>{{ emp.get_role_display }} &mdash; {{ emp.team.name|default:"No team" }}</p>
+                        </div>
+
+                        <span class="status pending" style="margin-right: 14px;">{{ emp.open_count }} open</span>
+
+                        <a href="{% url 'task_assign_form' emp.id %}"
+                           class="log-submit-btn"
+                           style="width: auto; padding: 10px 20px; text-decoration: none; display: inline-block;">
+                            Assign task
+                        </a>
+                    </div>
+                    {% empty %}
+                    <div class="activity-row">
+                        <div class="activity-details">
+                            <p>No team members visible for your role.</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+{% endblock %}

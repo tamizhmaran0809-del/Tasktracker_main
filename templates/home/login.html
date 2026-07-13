@@ -1,0 +1,186 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+
+<div class="log-container">
+
+    <!-- ================= Left Panel ================= -->
+
+    <section class="log-left-panel">
+
+        <div class="log-brand">
+
+            <div class="log-brand-logo">
+                T
+            </div>
+
+            <div class="log-brand-info">
+
+                <h2 class="log-brand-title">
+                    Task Tracker
+                </h2>
+
+                <p class="log-brand-subtitle">
+                    E2E Solutions · Internal
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="log-timeline">
+
+            <div class="log-timeline-item">
+
+                <div class="log-timeline-dot"></div>
+
+                <div class="log-timeline-content">
+
+                    <h3 class="log-timeline-title">
+                        One tracker, every team
+                    </h3>
+
+                    <p class="log-timeline-description">
+                        Development, Testing, Digital Marketing and HR all work on
+                        the same track — visibility scoped to what each role should
+                        see.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="log-timeline-item">
+
+                <div class="log-timeline-dot"></div>
+
+                <div class="log-timeline-content">
+
+                    <h3 class="log-timeline-title">
+                        Assign along the chain
+                    </h3>
+
+                    <p class="log-timeline-description">
+                        Leads assign within their own team. Admin and Manager can
+                        assign and view across the whole company.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="log-timeline-item">
+
+                <div class="log-timeline-dot"></div>
+
+                <div class="log-timeline-content">
+
+                    <h3 class="log-timeline-title">
+                        Status, at a glance
+                    </h3>
+
+                    <p class="log-timeline-description">
+                        Every task carries a signal — completed, pending or blocked
+                        — so nothing quietly stalls.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= Right Panel ================= -->
+
+    <section class="log-right-panel">
+
+        <div class="log-card">
+
+            <div class="log-header">
+
+                <h1 class="log-title">
+                    Sign In
+                </h1>
+
+                <p class="log-subtitle">
+                    Enter your Employee ID and Password to continue.
+                </p>
+
+            </div>
+
+            <form method="POST" autocomplete="off">
+
+                {% csrf_token %}
+
+                <div class="log-field">
+
+                    <label for="employee_id" class="log-label">
+                        Employee ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="employee_id"
+                        name="employee_id"
+                        class="log-input"
+                        placeholder="E2E-014"
+                        autocomplete="off"
+                        required>
+
+                </div>
+
+                <div class="log-field">
+
+                    <label for="password" class="log-label">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="log-input"
+                        placeholder="••••••••"
+                        autocomplete="new-password"
+                        required>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="log-submit-btn">
+
+                    Sign In
+
+                </button>
+
+            </form>
+
+            <div class="log-links">
+
+                <p class="log-register-text">
+                    New employee accounts are added by your Admin or Manager.
+                </p>
+
+                <a
+                    href="{% url 'index' %}"
+                    class="log-preview-link">
+
+                    Skip to dashboard preview →
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

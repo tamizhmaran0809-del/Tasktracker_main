@@ -1,0 +1,99 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+
+    {% include "home/partials/sidebar.html" %}
+
+    <!-- ===================== MAIN ===================== -->
+    <main class="main-content">
+
+        {% include "home/partials/topbar.html" with page_title="Dashboard" page_sub="Welcome back — here's what's moving today." %}
+
+        <!-- Dashboard Content -->
+        <section class="dashboard-content">
+
+            <!-- Preview dashboard as designation -->
+            {% if preview_designations %}
+            <div style="margin-bottom: 28px;">
+                <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px;">
+                    <label class="log-label" style="margin-bottom: 0; white-space: nowrap;">
+                        Preview dashboard
+                    </label>
+                    <form method="get" style="margin: 0;">
+                        <select name="preview_designation" class="log-input" style="width: auto; min-width: 220px;" onchange="this.form.submit()">
+                            <option value="" {% if not selected_designation %}selected{% endif %}>
+                                {% if request.user.is_company_wide %}Admin{% else %}{{ request.user.get_designation_display }}{% endif %}
+                            </option>
+                            {% for value, label in preview_designations %}
+                            <option value="{{ value }}" {% if value == selected_designation %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+
+            </div>
+            {% endif %}
+
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <p>Total Tasks</p>
+                    <h2>{{ total_tasks }}</h2>
+                    <span>Across all projects</span>
+                </div>
+
+                <div class="stat-card green">
+                    <p>Completed</p>
+                    <h2>{{ completed_tasks }}</h2>
+                    <span>Marked as completed</span>
+                </div>
+
+                <div class="stat-card orange">
+                    <p>Pending</p>
+                    <h2>{{ pending_tasks }}</h2>
+                    <span>In progress</span>
+                </div>
+
+                <div class="stat-card red">
+                    <p>Blocked</p>
+                    <h2>{{ blocked_tasks }}</h2>
+                    <span>Needs attention</span>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <section class="dashboard-section">
+                <h2>Recent Activity</h2>
+
+                <div class="activity-card">
+                    {% for task in recent_activity %}
+                    <div class="activity-row">
+                        <div class="activity-avatar">{{ task.assigned_to.get_initials }}</div>
+                        <div class="activity-details">
+                            <h4>{{ task.assigned_to.get_full_name }}</h4>
+                            <p>{{ task.title }}</p>
+                        </div>
+                        <span class="status {{ task.status|lower }}">{{ task.get_status_display }}</span>
+                    </div>
+                    {% empty %}
+                    <div class="activity-row">
+                        <div class="activity-details">
+                            <p>No tasks yet. Once tasks are assigned, activity will show up here.</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+{% endblock %}
