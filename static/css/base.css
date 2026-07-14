@@ -381,15 +381,57 @@ select.log-input {
 
     .log-left-panel {
         padding: 32px 24px;
+        gap: 32px;
+    }
+
+    .log-timeline {
+        gap: 20px;
     }
 
     .log-right-panel {
         padding: 32px 20px;
     }
 
+    .log-card {
+        max-width: 100%;
+    }
+
     .log-form-row {
         flex-direction: column;
         gap: 0;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .log-left-panel {
+        padding: 24px 18px;
+        gap: 24px;
+    }
+
+    .log-brand-title {
+        font-size: 1.05rem;
+    }
+
+    .log-timeline-title {
+        font-size: 0.92rem;
+    }
+
+    .log-timeline-description {
+        font-size: 0.8rem;
+    }
+
+    .log-right-panel {
+        padding: 24px 14px;
+    }
+
+    .log-card {
+        padding: 26px 20px;
+    }
+
+    .log-title {
+        font-size: 1.2rem;
     }
 
 }

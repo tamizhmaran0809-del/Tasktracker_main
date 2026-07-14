@@ -37,6 +37,21 @@
                     </form>
                 </div>
 
+                <section class="dashboard-section">
+                    <h2>Access scope</h2>
+                    <div class="info-card">
+                        <p>
+                            {% if selected_designation %}
+                                Previewing as <strong>{{ selected_designation_label }}</strong> — showing tasks visible to that designation
+                                {% if request.user.is_company_wide %}within the company{% else %}within your team{% endif %}.
+                            {% elif request.user.is_company_wide %}
+                                Full access — you can assign and view tasks for every employee in the company.
+                            {% else %}
+                                Team access — you can assign and view tasks within your team{% if request.user.team %} ({{ request.user.team.name }}){% endif %}.
+                            {% endif %}
+                        </p>
+                    </div>
+                </section>
             </div>
             {% endif %}
 
