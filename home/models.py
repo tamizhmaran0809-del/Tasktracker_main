@@ -28,6 +28,7 @@ class Designation(models.TextChoices):
     TESTER = "tester", "Testing Engineer"
     DM_LEAD = "dm_lead", "Digital Marketing Lead"
     DM_EXEC = "dm_exec", "Digital Marketing Executive"
+    BD_EXEC = "bd_exec", "Business Development Executive"
     INTERN = "intern", "Intern"
 
 
@@ -59,6 +60,7 @@ DESIGNATION_TEAM_MAP = {
     Designation.TESTER: "Testing",
     Designation.DM_LEAD: "Digital Marketing",
     Designation.DM_EXEC: "Digital Marketing",
+    Designation.BD_EXEC: "Business Development",
 }
 
 
